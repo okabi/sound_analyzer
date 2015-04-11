@@ -14,7 +14,7 @@ public class SoundFFT : MonoBehaviour {
     public AudioSource file;  // 解析対象のAudioSource
     public LineRenderer lineRenderer;  // 対数振幅スペクトル
     private const float RateHertz = 4.0f;  // Hertz倍率
-    private const float RatePower = 1.0f;  // Power倍率
+    private const float RatePower = 5.0f;  // Power倍率
     private const float PositionHertz = 0.1f;  // スペクトル描画開始位置(X座標)
     private const float PositionPower = 0.1f;  // スペクトル描画開始位置(Y座標)
 

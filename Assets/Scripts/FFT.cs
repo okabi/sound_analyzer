@@ -62,5 +62,7 @@ public class FFT : MonoBehaviour {
             float y = PositionPower + RatePower * (float)Math.Log(spectrum[i].Value + 1.0);
             lineRenderer.SetPosition(i, mainCamera.ViewportToWorldPoint(new Vector3(x, y, mainCamera.nearClipPlane)));
         }
+
+        Debug.Log(SoundAnalyzer.GetFundamentalFrequency(mic));
     }
 }
