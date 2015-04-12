@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\FFT.cs" />
+     <Compile Include="Assets\Scripts\FrequencyAndFFT.cs" />
      <Compile Include="Assets\Scripts\FundamentalFrequency.cs" />
      <Compile Include="Assets\Scripts\Lib\SoundAnalyzer.cs" />
      <Compile Include="Assets\Scripts\Lib\Utility.cs" />

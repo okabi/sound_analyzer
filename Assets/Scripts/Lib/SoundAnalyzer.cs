@@ -40,12 +40,34 @@ public class SoundAnalyzer : MonoBehaviour {
     {
         float[] spectrum = new float[NumSamples];
         audio.GetSpectrumData(spectrum, 0, Window);
+        
+        // 最大パワーを見つける
         int maxIndex = Utility.ArrayArgmax<float>(spectrum);
-        float freqIndex = (float)maxIndex;
-        if (maxIndex > 0 && maxIndex < spectrum.Length - 1)
+
+        // 基本周波数の候補とするパワー閾値を算出
+        float threshold = (float)System.Math.Log(spectrum[maxIndex] + 1.0f) / 10.0f;
+
+        // 低い周波数から、閾値を超えるパワーを持つピーク点を求める。
+        // それを基本周波数とする(いろいろ問題ありそうなアルゴリズムだ)。
+        int fundamentalIndex = maxIndex;
+        for (int i = 1; i < spectrum.Length - 1; i++)
         {
-            float dr = spectrum[maxIndex + 1] / spectrum[maxIndex];
-            float dl = spectrum[maxIndex - 1] / spectrum[maxIndex];
+            if (spectrum[i - 1] <= spectrum[i] && spectrum[i] >= spectrum[i + 1])
+            {
+                float power = (float)System.Math.Log(spectrum[i] + 1.0f);
+                if (power > threshold)
+                {
+                    fundamentalIndex = i;
+                    break;
+                }
+            }
+        }
+        
+        float freqIndex = (float)fundamentalIndex;
+        if (fundamentalIndex > 0 && fundamentalIndex < spectrum.Length - 1)
+        {
+            float dr = spectrum[fundamentalIndex + 1] / spectrum[fundamentalIndex];
+            float dl = spectrum[fundamentalIndex - 1] / spectrum[fundamentalIndex];
             freqIndex += 0.5f * (dr * dr - dl * dl); 
         }
         return freqIndex * AudioSettings.outputSampleRate / 2.0f / spectrum.Length;
